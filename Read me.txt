@@ -1,0 +1,59 @@
+#Project Files
+
+`pipeline.py` contains the model interface and the two security mitigations.
+
+`run_all.py` runs the four Garak experimental configurations.
+
+`benign_fp.py` evaluates false positives produced by the output filter.
+
+`README.md` provides the installation and execution instructions.
+
+
+#Requirements
+
+This project requires Python 3, Ollama, Garak 0.16.0, the Ollama Python package 0.6.2, and the `llama3.2:3b` model.
+
+
+#Installation
+
+Create a virtual environment from the project directory: python -m venv .venv
+
+
+Activate the virtual environment: .venv\Scripts\Activate.ps1
+
+
+Install the required Python packages: python -m pip install garak==0.16.0 ollama==0.6.2
+
+
+Install Ollama from the official Ollama website if it is not already installed.
+
+Confirm that Ollama is available: ollama --version
+
+
+Download the target model: ollama pull llama3.2:3b
+
+
+Confirm that the model is available locally: ollama list
+
+
+
+#Running the Security Experiments
+
+Run the full experiment with: python run_all.py
+
+
+The experiment compares four configurations of the same pipeline.
+
+All configurations use the same `llama3.2:3b` model and the same Garak probes so that the mitigation results can be compared under consistent conditions. The probes are `dan.DanInTheWild` for jailbreak-style attacks and `promptinject.HijackLongPrompt` for prompt-injection attacks.
+
+Garak is configured to generate one response per adversarial prompt. Results from each configuration are stored separately under the `results/` directory.
+
+
+#Running the Benign False-Positive Evaluation
+
+Run the benign evaluation with: python benign_fp.py
+
+
+This script evaluates the output filter using 20 benign prompts, including ordinary prompts and security-related prompts. It measures how often the filter incorrectly identifies a safe response as suspicious.
+
+
